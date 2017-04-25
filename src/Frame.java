@@ -13,11 +13,9 @@ import java.io.IOException;
 public class Frame extends JFrame {
     public static void main(String[] args) {
         Frame frame = new Frame();
+        TheController.getInstance(frame, new TheFileFinder());
+
     }
-
-    Controller controller;
-    FileFinder fileFinder;
-
 
     Frame() {
         this.setSize(1200,800);
@@ -42,79 +40,7 @@ public class Frame extends JFrame {
 
         this.setResizable(false);
 
-
-        //
-
-        controller = TheController.getInstance();
-        fileFinder = new TheFileFinder();
-        controller.setFileFinder(fileFinder);
-        controller.pressedRight();
-
-
-        MainPanel mainPanel = new MainPanel(new File("/Users/peterjmyers/Dropbox/My_Files/Focus Area/YourMemoryPalace/resources/1.png"));
-
-        this.add(mainPanel);
-
         this.setVisible(true);
 
     }
-
-
-    class MainPanel extends JPanel {
-
-        private int width, height;
-
-        private BufferedImage image;
-
-        public MainPanel(File filename) {
-            try {
-                image = ImageIO.read(filename);
-            } catch (IOException ex) {
-                // handle exception...
-            }
-            JTextArea textArea = new JTextArea(7, 95);
-            JScrollPane scrollPane = new JScrollPane(textArea);
-            this.add(scrollPane);
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            g.drawImage(image, 0, 0, this); // see javadoc for more info on the parameters
-        }
-
-
-    }
-
-    class ListenForKey implements KeyListener {
-
-        ListenForKey() {
-
-        }
-
-        @Override
-        public void keyTyped(KeyEvent e) {
-            if (e.getKeyCode() == 65 || e.getKeyCode() == 37) { // right
-                controller.pressedRight();
-            } else if (e.getKeyCode() == 68 || e.getKeyCode() == 39) { // left
-                controller.pressedLeft();
-            } else if (e.getKeyCode() == 87 || e.getKeyCode() == 38) { // up
-                controller.pressedUp();
-            } else if (e.getKeyCode() == 83 || e.getKeyCode() == 40) { // down
-                controller.pressedDown();
-            }
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-
-        }
-
-    }
-
 }

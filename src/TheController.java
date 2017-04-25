@@ -1,54 +1,59 @@
-import javax.naming.ldap.Control;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.File;
 
 /**
  * Created by peterjmyers on 4/21/17.
  */
 public class TheController implements Controller {
 
-    private static TheController instance = null;
     private FileFinder fileFinder;
+    private Frame frame;
+    private static MainPanel mainPanel;
 
-    private TheController() {
-
-    }
-
-    public static TheController getInstance() {
-        if (instance == null) {
-            instance = new TheController();
-        }
-        return instance;
-    }
-
-    @Override
-    public void setFileFinder(FileFinder fileFinder) {
+    private TheController(Frame frame, FileFinder fileFinder) {
+        this.frame = frame;
         this.fileFinder = fileFinder;
+        KeyListener lForKey = new ListenForKey();
+        System.out.print("test1");
+        frame.addKeyListener(lForKey);
     }
 
-    @Override
-    public void pressedRight() { // next
-        String str = fileFinder.getNextFile();
+    public static TheController getInstance(Frame frame, FileFinder fileFinder) {
+        mainPanel = new MainPanel(fileFinder.getCurrentFile());
+        frame.add(mainPanel); // adds the panel and gives an initial image
+        return new TheController(frame, fileFinder);
     }
 
-    @Override
-    public void pressedLeft() { // previous
-        String str = fileFinder.getPrevFile();
-    }
+    class ListenForKey implements KeyListener {
 
-    @Override
-    public void pressedUp() { // back
-        String str = fileFinder.getZoomOutFile();
-    }
+        ListenForKey() {
 
-    @Override
-    public void pressedDown() { // drill in
-        String str = fileFinder.getZoomInFile();
-    }
+        }
 
-    private void template() {
-        // ask the file finder if zoom in/out possible (optional)
-        // pass next file string to the Frame
-        // if can't zoom out do nothing
+        @Override
+        public void keyTyped(KeyEvent e) {
 
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+
+            if (e.getKeyCode() == 65 || e.getKeyCode() == 37) { // left
+                mainPanel.setNewRoomLocation(fileFinder.getPrevFile());
+            } else if (e.getKeyCode() == 68 || e.getKeyCode() == 39) { // right
+                mainPanel.setNewRoomLocation(fileFinder.getNextFile());
+            } else if (e.getKeyCode() == 87 || e.getKeyCode() == 38) { // up
+                mainPanel.setNewRoomLocation(fileFinder.getZoomOutFile());
+            } else if (e.getKeyCode() == 83 || e.getKeyCode() == 40) { // down
+                mainPanel.setNewRoomLocation(fileFinder.getZoomInFile());
+            }
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+
+        }
 
     }
 }
