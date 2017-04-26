@@ -9,4 +9,6 @@ public interface FileFinder {
     public File getPrevFile();
     public File getZoomInFile();
     public File getZoomOutFile();
+    public File getNextRoomFile();
+    public File getPrevRoomFile();
 }

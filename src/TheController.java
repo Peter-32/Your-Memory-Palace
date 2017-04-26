@@ -15,7 +15,6 @@ public class TheController implements Controller {
         this.frame = frame;
         this.fileFinder = fileFinder;
         KeyListener lForKey = new ListenForKey();
-        System.out.print("test1");
         frame.addKeyListener(lForKey);
     }
 
@@ -47,7 +46,12 @@ public class TheController implements Controller {
                 mainPanel.setNewRoomLocation(fileFinder.getZoomOutFile());
             } else if (e.getKeyCode() == 83 || e.getKeyCode() == 40) { // down
                 mainPanel.setNewRoomLocation(fileFinder.getZoomInFile());
+            } else if (e.getKeyCode() == 46) {
+                mainPanel.setNewRoomLocation(fileFinder.getPrevRoomFile());
+            } else if (e.getKeyCode() == 44) {
+                mainPanel.setNewRoomLocation(fileFinder.getNextRoomFile());
             }
+
         }
 
         @Override
