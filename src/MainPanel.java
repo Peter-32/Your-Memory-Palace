@@ -17,12 +17,16 @@ public class MainPanel extends JPanel {
 
     JLabel label1 = new JLabel("");
     JLabel label2 = new JLabel("");
+    JTextArea textArea;
 
     private BufferedImage image;
 
     public MainPanel(File initialImgFile) {
+        this.textArea = new JTextArea(7, 95);
+        textArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        this.add(scrollPane);
         setNewRoomLocation(initialImgFile);
-
     }
 
     public void setNewRoomLocation(File file) {
@@ -39,13 +43,14 @@ public class MainPanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //JTextArea textArea = new JTextArea(7, 95);
-        //textArea.append(text);
-        //textArea.setEditable(false);
-        //JScrollPane scrollPane = new JScrollPane(textArea);
-        //this.add(scrollPane);
-        label1.setText(text);
-        this.add(label1);
+        String locationNumber = file.getName().replace(".jpg", "");
+
+        textArea.setText("Location Number: " + locationNumber + "\n");
+        textArea.append(text);
+
+
+        //label1.setText(text);
+        //this.add(label1);
 
         /*
         String text = null;
@@ -59,10 +64,10 @@ public class MainPanel extends JPanel {
          */
 
         // location number
-        String locationNumber = file.getName().replace(".jpg","");
-        System.out.println(locationNumber);
-        label2.setText("Location Number: " + locationNumber);
-        this.add(label2);
+
+        //System.out.println(locationNumber);
+        //label2.setText("Location Number: " + locationNumber);
+        //this.add(label2);
 
         // paint
         repaint();
@@ -75,6 +80,9 @@ public class MainPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(image, 0, 0, this); // see javadoc for more info on the parameters
+        //g.setColor(Color.WHITE);
+        //g.fill3DRect(0,0,1200,300,true);
+
     }
 
 
